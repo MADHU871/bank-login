@@ -6,9 +6,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const authRoutes = require("./routes/auth");
+app.post("/login", (req, res) => {
+    const { username, password } = req.body;
 
-app.use("/api", authRoutes);
+    if (username === "admin" && password === "admin123") {
+        res.json({
+            success: true,
+            message: "Login Successful"
+        });
+    } else {
+        res.json({
+            success: false,
+            message: "Invalid Username or Password"
+        });
+    }
+});
 
 app.listen(5000, () => {
     console.log("Server running on port 5000");
