@@ -11,11 +11,9 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v4
 
       - name: Docker Login
@@ -25,17 +23,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Frontend
-        run: |
-          docker build -t $FRONTEND_IMAGE:latest .
+        run: docker build -t $FRONTEND_IMAGE:latest .
 
       - name: Build Backend
-        run: |
-          docker build -t $BACKEND_IMAGE:latest ./backend
+        run: docker build -t $BACKEND_IMAGE:latest ./backend
 
       - name: Push Frontend
-        run: |
-          docker push $FRONTEND_IMAGE:latest
+        run: docker push $FRONTEND_IMAGE:latest
 
       - name: Push Backend
-        run: |
-          docker push $BACKEND_IMAGE:latest
+        run: docker push $BACKEND_IMAGE:latest
