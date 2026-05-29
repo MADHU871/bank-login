@@ -3,25 +3,28 @@ const cors = require("cors");
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-app.post("/login", (req, res) => {
-    const { username, password } = req.body;
+// Routes
+const authRoutes = require("./routes/auth");
+const accountRoutes = require("./routes/account");
 
-    if (username === "admin" && password === "admin123") {
-        res.json({
-            success: true,
-            message: "Login Successful"
-        });
-    } else {
-        res.json({
-            success: false,
-            message: "Invalid Username or Password"
-        });
-    }
+app.use("/api/auth", authRoutes);
+app.use("/api", accountRoutes);
+
+// Test Route
+app.get("/", (req, res) => {
+    res.json({
+        success: true,
+        message: "Bank Login API Running"
+    });
 });
 
-app.listen(5000, () => {
-    console.log("Server running on port 5000");
+// Start Server
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

@@ -1,9 +1,13 @@
-name: CI
+name: Bank Login CI/CD
 
 on:
   push:
     branches:
       - main
+
+env:
+  FRONTEND_IMAGE: mad0008271/bank-login-frontend
+  BACKEND_IMAGE: mad0008271/bank-login-backend
 
 jobs:
   build:
@@ -14,5 +18,24 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Build Docker Image
-        run: docker build -t bank-login .
+      - name: Docker Login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Frontend
+        run: |
+          docker build -t $FRONTEND_IMAGE:latest .
+
+      - name: Build Backend
+        run: |
+          docker build -t $BACKEND_IMAGE:latest ./backend
+
+      - name: Push Frontend
+        run: |
+          docker push $FRONTEND_IMAGE:latest
+
+      - name: Push Backend
+        run: |
+          docker push $BACKEND_IMAGE:latest

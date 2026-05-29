@@ -1,26 +1,57 @@
 const express = require("express");
+
 const router = express.Router();
 
-router.post("/login", (req, res) => {
+// Register Route
+router.post("/register", async (req, res) => {
+    try {
+        const { username, password } = req.body;
 
-    const { username, password } = req.body;
+        if (!username || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Username and Password are required"
+            });
+        }
 
-    if (
-        username === "admin" &&
-        password === "123456"
-    ) {
-
-        return res.json({
+        res.status(201).json({
             success: true,
-            message: "Login Success"
+            message: "User Registered",
+            username
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Server Error"
         });
     }
+});
 
-    return res.status(401).json({
-        success: false,
-        message: "Invalid Credentials"
-    });
+// Login Route
+router.post("/login", async (req, res) => {
+    try {
+        const { username, password } = req.body;
 
+        if (!username || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Username and Password are required"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Login Successful",
+            username
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Server Error"
+        });
+    }
 });
 
 module.exports = router;
