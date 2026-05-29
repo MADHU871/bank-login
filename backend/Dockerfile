@@ -2,9 +2,6 @@ FROM node:18
 
 WORKDIR /app
 
-<<<<<<< HEAD
-EXPOSE 80
-=======
 COPY backend/package*.json ./
 
 RUN npm install
@@ -13,5 +10,4 @@ COPY backend .
 
 EXPOSE 5001
 
-CMD ["npm", "run", "dev"]
->>>>>>> eec7145 (add new version)
+CMD ["npm", "start"]
